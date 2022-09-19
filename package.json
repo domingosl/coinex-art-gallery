@@ -1,0 +1,20 @@
+{
+  "name": "coinex-art-gallery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel ./client_src/index.html",
+    "build": "parcel build ./client_src/index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.7.0",
+    "parcel": "^2.7.0"
+  },
+  "dependencies": {
+    "three": "^0.144.0"
+  }
+}
