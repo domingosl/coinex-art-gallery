@@ -4,17 +4,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel ./client_src/index.html",
-    "build": "parcel build ./client_src/index.html"
+    "dev": "rm -rf ./dist && mkdir ./dist && cp -R ./assets ./dist && parcel ./client_src/index.html ./client_src/gallery.html ./client_src/new-gallery.html",
+    "build": "parcel build ./client_src/index.html ./client_src/gallery.html ./client_src/new-gallery.html",
+    "vr": "openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout dist/key.pem -out dist/cert.pem && cd dist && http-server -S -C cert.pem -o"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.7.0",
-    "parcel": "^2.7.0"
+    "assert": "^2.0.0",
+    "events": "^3.3.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "parcel": "^2.7.0",
+    "path-browserify": "^1.0.1",
+    "querystring-es3": "^0.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0"
   },
   "dependencies": {
-    "three": "^0.144.0"
+    "dotenv": "^16.0.3",
+    "solc": "^0.8.17",
+    "sweetalert2": "^11.4.37",
+    "three": "^0.144.0",
+    "web3": "^1.8.0"
   }
 }

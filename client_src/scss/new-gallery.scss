@@ -1,0 +1,113 @@
+@import "global";
+
+html {
+  overflow-y: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+@media only screen and (max-width: 991px) {
+  html {
+    overflow-y: auto;
+  }
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+}
+
+.col {
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.controls {
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--bg-section);
+  padding: 50px 40px;
+  margin: 0;
+  color: white;
+}
+
+.gallery-preview {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.super-link {
+  color: blueviolet;
+  font-weight: bold;
+  display: block;
+  font-size: 18px;
+  padding: 10px 10px;
+  border: 1px dashed;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+form {
+
+  .gallery-selector input {
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+
+  .gallery-selector input:active + .gallery-card {
+    opacity: .9;
+  }
+
+  .gallery-selector input:checked + .gallery-card {
+    border: 2px solid #FFF;
+    border-radius: 5px;
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+  }
+
+  .gallery-card {
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    -webkit-transition: all 100ms ease-in;
+    -moz-transition: all 100ms ease-in;
+    transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+    -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+    filter: brightness(1.8) grayscale(1) opacity(.7);
+  }
+
+  .gallery-card:hover {
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+    -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+    filter: brightness(1.2) grayscale(.5) opacity(.9);
+  }
+
+  input[type="text"], select {
+    margin: 5px 0;
+    background: black !important;
+    border: none !important;
+    color: white !important;
+    -webkit-appearance: none;
+  }
+
+  select {
+    text-align: center;
+  }
+
+}

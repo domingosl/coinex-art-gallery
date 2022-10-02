@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@100;300;600&display=swap");
+@import "loader";
+
+:root {
+  --primary-color: #343444;
+  --primary-color2: #fff;
+  --primary-color4: #ebebeb;
+  --primary-color5: #030303;
+  --primary-color6: #ffffff;
+  --primary-color7: #343444;
+  --bg-section: #14141f;
+  --bg-section2: #14141f;
+  --primary-color8: #fff;
+}
+
+html {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.pad0 {
+  padding: 0;
+}
+
+strong {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 56px;
+  line-height: 68px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.color {
+  color: #14141f;
+  background: linear-gradient(-45deg, #E250E5, #4B50E6, #E250E5, #4B50E6);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 3px transparent;
+}
+
+p.lead {
+  font-size: 23px;
+}
+
+p.isolate {
+  margin: 40px 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color2);
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  letter-spacing: 0.1px;
+}
+
+.button.small {
+  font-size: 16px;
+}
+
+.button {
+  font-weight: bold;
+  display: inline-block;
+  border: 2px solid var(--primary-color3);
+  color: var(--primary-color3);
+  box-sizing: border-box;
+  padding: 11px 35px;
+  border-radius: 30px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.btn-main {
+  border: 2px solid #5142FC;
+  color: #fff;
+  background: transparent none repeat scroll 0 0;
+}
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #757575;
+  text-shadow: none; /* Prevent inheritance from `body` */
+}

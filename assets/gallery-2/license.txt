@@ -1,0 +1,8 @@
+Model Information:
+* title:	VR Gallery for Design & Painting Showcase
+* source:	https://sketchfab.com/3d-models/vr-gallery-for-design-painting-showcase-048795329a3f433287a29f03f6c72e8e
+* author:	Marcin Lubecki (https://sketchfab.com/Lubus)
+
+Model License:
+* license type:	SKETCHFAB Editorial (https://sketchfab.com/licenses)
+* requirements:	Use only in connection with events that are newsworthy or of public interest
