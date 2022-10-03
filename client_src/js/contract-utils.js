@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import Web3 from 'web3';
 
 const bytecode = require('../../contracts/bytecode.json').object;
@@ -16,6 +18,10 @@ module.exports.connectToCoinEx = async () => {
     web3 = new Web3(window.ethereum);
 
     const accounts = await web3.eth.getAccounts();
+
+    //TODO: Compare networkId with process.env.COINEX_NET_ID and break if it do not match
+    //const networkId = web3.eth.net.getId();
+
     mainAccount = accounts[0];
 
 };
