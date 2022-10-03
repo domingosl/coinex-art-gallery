@@ -58,7 +58,7 @@ window.init3d = (id) => new Promise((resolve, reject) => {
 
     gltfLoader.load(
         galleryPreset.location,
-        function (gltf) {
+        async function (gltf) {
 
             gallery = gltf.scene;
             gallery.scale.set(galleryPreset.scene.scale, galleryPreset.scene.scale, galleryPreset.scene.scale);
@@ -75,7 +75,12 @@ window.init3d = (id) => new Promise((resolve, reject) => {
                 galleryPreset.camera.position.z
             );
 
-            scene.add(gltf.scene);
+            if(typeof galleryPreset.postRenderModifier === 'function')
+                await galleryPreset.postRenderModifier(gallery);
+
+            scene.add(gallery);
+
+
 
             window.addEventListener('resize', onWindowResize, false);
             onWindowResize();

@@ -68,7 +68,7 @@ const loadPreview = (galleryId) => new Promise((resolve, reject) => {
 
     gltfLoader.load(
         galleryPreset.location,
-        function (gltf) {
+        async function (gltf) {
 
             gallery = gltf.scene;
             gallery.scale.set(galleryPreset.scene.scale, galleryPreset.scene.scale, galleryPreset.scene.scale);
@@ -90,6 +90,10 @@ const loadPreview = (galleryId) => new Promise((resolve, reject) => {
                 galleryPreset.camera.position.z
             );
             scene = new THREE.Scene();
+
+            if(typeof galleryPreset.postRenderModifier === 'function')
+                await galleryPreset.postRenderModifier(gallery);
+
             scene.add(gallery);
 
 
@@ -226,6 +230,8 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
 
     $scope.deployGallery = async () => {
 
+        loader.show();
+
         try {
             await previewPaintings(true);
         }
@@ -241,7 +247,7 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
 
         animReqId && cancelAnimationFrame( animReqId );
 
-        loader.show();
+
 
         const paintingsArr = [];
 
@@ -300,6 +306,7 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
                 icon: 'error',
                 confirmButtonText: 'Ok'
             });
+            animate();
         }
 
 
