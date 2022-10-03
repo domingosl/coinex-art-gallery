@@ -28,7 +28,7 @@ const defaultPaintingWidth = 1300;
 
 
 function resizeCanvasToDisplaySize() {
-    console.log("resizeCanvasToDisplaySize");
+
     const canvas = renderer.domElement;
 
     // look up the size the canvas is being displayed
@@ -61,7 +61,7 @@ function animate() {
 }
 
 
-function loadPreview(galleryId) {
+const loadPreview = (galleryId) => new Promise((resolve, reject) => {
 
     animReqId && cancelAnimationFrame( animReqId );
     const galleryPreset = galleriesPresets.findById(galleryId);
@@ -97,16 +97,19 @@ function loadPreview(galleryId) {
             resizeCanvasToDisplaySize();
 
 
+            return resolve();
+
         },
         (xhr) => {},
         (error) => {
             console.log(error);
+            return reject();
         }
     );
 
-}
+});
 
-const checkIfImageExists = (url, callback) => new Promise((resolve, reject) => {
+const checkIfImageExists = url => new Promise((resolve, reject) => {
     const img = new Image();
     img.src = url;
 
@@ -125,8 +128,6 @@ const checkIfImageExists = (url, callback) => new Promise((resolve, reject) => {
 
 angular.module("newGallery", []).controller("main", [ "$scope", "$interval", function ($scope, $interval) {
 
-    loader.show();
-
     $scope.formData = {
         currentStep: 'gallerySelection',
         selectedGalleryId: 1,
@@ -139,9 +140,12 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
     $scope.selectGallery = id => {
         $scope.formData.selectedGallery = galleriesPresets.findById(id);
         loader.show();
-        loadPreview(id);
-        initializePaintings();
-        loader.hide();
+        loader.showStatus("Loading 3d gallery, this could take a minute on slow connections");
+        loadPreview(id).then(()=>{
+            initializePaintings();
+            loader.hide();
+        });
+
     };
 
     $scope.goTo = step => $scope.formData.currentStep = step;
@@ -224,7 +228,6 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
 
         try {
             await previewPaintings(true);
-            loader.hide();
         }
         catch (message) {
             loader.hide();
@@ -271,8 +274,10 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
             loader.showStatus("Deploying contract and minting NFTs");
             const response = await contractUtils.deploy($scope.formData.selectedGalleryId, paintingsArr);
 
-            const coinexChainExplorer = process.env.COINEX_TR_EXPLORER_TPL.replace('{{address}}', response.transactionHash)
-            const galleryURL = process.env.GALLERY_URL_TPL.replace('{{address}}', response.contractAddress)
+            const coinexChainExplorer = process.env.COINEX_TR_EXPLORER_TPL.replace('{{address}}', response.transactionHash);
+            const galleryURL = process.env.GALLERY_URL_TPL.replace('{{address}}', response.contractAddress);
+
+            loader.hide();
 
             Swal.fire({
                 title: 'Gallery on chain!',
@@ -284,7 +289,8 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
                 showCloseButton: false,
                 allowOutsideClick: false
             });
-            console.log(response);
+
+            console.log("Deploy completed!", response);
         }
         catch (e) {
             loader.hide();
@@ -296,12 +302,11 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
             });
         }
 
-        loader.hide();
+
     }
 
     loader.show();
     initializePaintings();
-    loadPreview($scope.formData.selectedGalleryId);
-    loader.hide();
+    loadPreview($scope.formData.selectedGalleryId).then(()=>loader.hide());
 
 }]);
