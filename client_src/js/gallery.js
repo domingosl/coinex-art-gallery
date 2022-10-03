@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import Web3 from 'web3';
 import abi from '../../contracts/abi.json';
 
@@ -170,7 +172,7 @@ window.loadGallery = async () => {
     if(!contractAddrReg.test(queryParams.g))
         return alert("Invalid Gallery Address!");
 
-    web3 = new Web3("https://testnet-rpc.coinex.net");
+    web3 = new Web3(process.env.COINEX_NET_RPC_URL);
 
     contract = new web3.eth.Contract(abi, queryParams.g);
 
