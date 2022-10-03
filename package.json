@@ -2,7 +2,6 @@
   "name": "coinex-art-gallery",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "rm -rf ./dist && mkdir ./dist && cp -R ./assets ./dist && parcel ./client_src/index.html ./client_src/gallery.html ./client_src/new-gallery.html",
     "build": "parcel build ./client_src/index.html ./client_src/gallery.html ./client_src/new-gallery.html",
