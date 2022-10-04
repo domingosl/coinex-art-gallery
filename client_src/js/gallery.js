@@ -81,7 +81,17 @@ window.init3d = (id) => new Promise((resolve, reject) => {
 
             scene.add(gallery);
 
+            const controllerModelFactory = new XRControllerModelFactory();
+            const controllerGrip1 = renderer.xr.getControllerGrip(0);
+            const model1 = controllerModelFactory.createControllerModel( controllerGrip1 );
 
+            controllerGrip1.add( model1 );
+
+            scene.add( controllerGrip1 );
+
+            renderer.xr.addEventListener('sessionstart', function () {
+                scene.position.z -= 4;
+            });
 
             window.addEventListener('resize', onWindowResize, false);
             onWindowResize();
