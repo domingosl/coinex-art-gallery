@@ -23,7 +23,7 @@ const data = [
             position: {
                 x: 0,
                 y: 1.6,
-                z: 6
+                z: 4
             },
             fov: 50
         },

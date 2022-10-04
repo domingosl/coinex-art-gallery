@@ -5,6 +5,7 @@ import abi from '../../contracts/abi.json';
 
 const loader = require('../js/blocking-loader');
 const galleriesPresets = require('../js/galleries-presets');
+const controllers = require('./controllers');
 
 const { displayPainting, clearPaintings } = require('../js/display-paintings');
 
@@ -32,6 +33,9 @@ let camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
+
+const cameraGroup = new THREE.Group();
+cameraGroup.add(camera);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 
@@ -80,17 +84,12 @@ window.init3d = (id) => new Promise((resolve, reject) => {
                 await galleryPreset.postRenderModifier(gallery);
 
             scene.add(gallery);
+            scene.add(cameraGroup);
 
-            const controllerModelFactory = new XRControllerModelFactory();
-            const controllerGrip1 = renderer.xr.getControllerGrip(0);
-            const model1 = controllerModelFactory.createControllerModel( controllerGrip1 );
-
-            controllerGrip1.add( model1 );
-
-            scene.add( controllerGrip1 );
 
             renderer.xr.addEventListener('sessionstart', function () {
-                scene.position.z -= 4;
+                //scene.position.z -= 2;
+                controllers.load(renderer, cameraGroup);
             });
 
             window.addEventListener('resize', onWindowResize, false);
