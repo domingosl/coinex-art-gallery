@@ -68,6 +68,7 @@ window.init3d = (id) => new Promise((resolve, reject) => {
                 galleryPreset.scene.position.z);
 
             camera.fov = (galleryPreset.camera.fov);
+            camera.updateProjectionMatrix();
 
             camera.position.set(
                 galleryPreset.camera.position.x,
@@ -85,8 +86,11 @@ window.init3d = (id) => new Promise((resolve, reject) => {
             window.addEventListener('resize', onWindowResize, false);
             onWindowResize();
 
+            //const controls = new OrbitControls(camera, renderer.domElement)
+
             renderer.setAnimationLoop(function () {
                 renderer.render( scene, camera );
+                //controls.update();
             });
 
             resolve();
@@ -98,74 +102,6 @@ window.init3d = (id) => new Promise((resolve, reject) => {
             reject();
         });
 
-/*    function onSelectStart() {
-        userData.selectPressed = true;
-    }
-
-    function onSelectEnd() {
-        userData.selectPressed = false;
-
-    }*/
-
-    let controller = renderer.xr.getController( 0 );
-
-    const buildController = ( data ) => {
-        let geometry, material;
-
-        switch ( data.targetRayMode ) {
-
-            case 'tracked-pointer':
-
-                geometry = new THREE.BufferGeometry();
-                geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( [ 0, 0, 0, 0, 0, - 1 ], 3 ) );
-                geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( [ 0.5, 0.5, 0.5, 0, 0, 0 ], 3 ) );
-
-                material = new THREE.LineBasicMaterial( { vertexColors: true, blending: THREE.AdditiveBlending } );
-
-                return new THREE.Line( geometry, material );
-
-            case 'gaze':
-
-                geometry = new THREE.RingBufferGeometry( 0.02, 0.04, 32 ).translate( 0, 0, - 1 );
-                material = new THREE.MeshBasicMaterial( { opacity: 0.5, transparent: true } );
-                return new THREE.Mesh( geometry, material );
-
-        }
-
-    }
-
-    controller.addEventListener( 'connected', function ( event ) {
-
-        const mesh = buildController.call(self, event.data );
-        mesh.scale.z = 0;
-        scene.add( mesh );
-
-    } );
-
-    controller.addEventListener( 'disconnected', function () {
-
-        scene.remove( this.children[ 0 ] );
-        controller = null;
-        controllerGrip = null;
-
-    } );
-
-    scene.add(controller);
-
-    const controllerModelFactory = new XRControllerModelFactory();
-
-    let controllerGrip = renderer.xr.getControllerGrip( 0 );
-    controllerGrip.add( controllerModelFactory.createControllerModel( controllerGrip ) );
-    scene.add( controllerGrip );
-
-    const dolly = new THREE.Object3D();
-    dolly.position.z = 5;
-    dolly.add( camera );
-    scene.add( dolly );
-
-    const dummyCam = new THREE.Object3D();
-    camera.add( dummyCam );
-
     document.body.appendChild(renderer.domElement);
     document.body.appendChild(VRButton.createButton(renderer));
 
@@ -174,17 +110,17 @@ window.init3d = (id) => new Promise((resolve, reject) => {
 
 window.loadGallery = async () => {
 
-    if(!contractAddrReg.test(queryParams.g))
+    if(!contractAddrReg.test(queryParams.g) && (queryParams.g !== 'example'))
         return alert("Invalid Gallery Address!");
 
     web3 = new Web3(process.env.COINEX_NET_RPC_URL);
 
-    contract = new web3.eth.Contract(abi, queryParams.g);
+    contract = new web3.eth.Contract(abi, queryParams.g === 'example' ? process.env.GALLERY_EXAMPLE_1 : queryParams.g);
 
     loader.show();
 
     const galleryIndex = parseInt(await contract.methods.getGalleryIndex().call());
-    console.log(galleryIndex);
+
     const paintings = await contract.methods.getPaintings().call();
 
     console.log("Paintings", paintings);

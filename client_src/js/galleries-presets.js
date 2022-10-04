@@ -23,9 +23,9 @@ const data = [
             position: {
                 x: 0,
                 y: 1.6,
-                z: 3.2
+                z: 4
             },
-            fov: 75
+            fov: 50
         },
         scene: {
             scale: 1,
