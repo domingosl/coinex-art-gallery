@@ -1,6 +1,3 @@
-//import { update } from './handposes/index.js'
-
-
 module.exports.get = (renderer, rafCallbacks) => {
 
     const prevGamePads = new Map();
@@ -20,7 +17,7 @@ module.exports.get = (renderer, rafCallbacks) => {
     rafCallbacks.add((timestamp, frame) => {
 
         const session = renderer.xr.getSession();
-        //update(renderer.xr.getReferenceSpace(), frame);
+
         let i = 0;
         if (session) for (const source of session.inputSources) {
             if (!source.gamepad) continue;
