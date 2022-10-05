@@ -6,6 +6,7 @@ import abi from '../../contracts/abi.json';
 const loader = require('../js/blocking-loader');
 const galleriesPresets = require('../js/galleries-presets');
 const controllers = require('./controllers');
+const locomotion = require('./locomotion');
 
 const { displayPainting, clearPaintings } = require('../js/display-paintings');
 
@@ -86,18 +87,22 @@ window.init3d = (id) => new Promise((resolve, reject) => {
             scene.add(gallery);
             scene.add(cameraGroup);
 
+            const rafCallbacks = new Set();
 
             renderer.xr.addEventListener('sessionstart', function () {
                 //scene.position.z -= 2;
-                controllers.load(renderer, cameraGroup);
+                const { controller1, controller2, controllerGrip1, controllerGrip2, hand1, hand2 } = controllers.load(renderer, cameraGroup);
+                locomotion.load(scene, camera, cameraGroup, rafCallbacks, controller1, controller2)
             });
 
             window.addEventListener('resize', onWindowResize, false);
             onWindowResize();
 
-            //const controls = new OrbitControls(camera, renderer.domElement)
+            //const controls = new OrbitControls(camera, renderer.domElement);
 
-            renderer.setAnimationLoop(function () {
+
+            renderer.setAnimationLoop(function (time ,frame) {
+                rafCallbacks.forEach(cb => cb(time, frame));
                 renderer.render( scene, camera );
                 //controls.update();
             });
