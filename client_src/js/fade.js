@@ -5,7 +5,7 @@ import {
     BackSide
 } from 'three';
 
-import TWEEN from '@tweenjs/tween.js/dist/tween.esm.js';
+import TWEEN from '@tweenjs/tween.js/dist/tween.umd.js';
 
 
 module.exports = (camera, cameraGroup) => {
