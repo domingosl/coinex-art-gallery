@@ -12,7 +12,7 @@ import {
     Line
 } from  'three';
 
-module.exports.load = (scene, camera, cameraGroup, rafCallbacks, controller1, controller2) => {
+module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, controller1, controller2) => {
 
     const locomotion = require('./fade')(camera, cameraGroup);
 
@@ -141,13 +141,15 @@ module.exports.load = (scene, camera, cameraGroup, rafCallbacks, controller1, co
         onSelectEnd.bind(detail.controller)();
     }
 
-/*    gamepad.addEventListener('axes0MoveMiddle', handleMove, true);
+    const gamepad = require('./gamepad').get(renderer, rafCallbacks);
+
+    gamepad.addEventListener('axes0MoveMiddle', handleMove, true);
     gamepad.addEventListener('axes2MoveMiddle', handleMove, true);
 
     gamepad.addEventListener('axes1MoveMiddle', handleUp, true);
     gamepad.addEventListener('axes3MoveMiddle', handleUp, true);
     gamepad.addEventListener('axes1MoveEnd', handleUpEnd, true);
-    gamepad.addEventListener('axes3MoveEnd', handleUpEnd, true);*/
+    gamepad.addEventListener('axes3MoveEnd', handleUpEnd, true);
 
     controller1.addEventListener('selectstart', onSelectStart);
     controller1.addEventListener('selectend', onSelectEnd);

@@ -92,7 +92,7 @@ window.init3d = (id) => new Promise((resolve, reject) => {
             renderer.xr.addEventListener('sessionstart', function () {
                 //scene.position.z -= 2;
                 const { controller1, controller2, controllerGrip1, controllerGrip2, hand1, hand2 } = controllers.load(renderer, cameraGroup);
-                locomotion.load(scene, camera, cameraGroup, rafCallbacks, controller1, controller2)
+                locomotion.load(scene, renderer, camera, cameraGroup, rafCallbacks, controller1, controller2)
             });
 
             window.addEventListener('resize', onWindowResize, false);
