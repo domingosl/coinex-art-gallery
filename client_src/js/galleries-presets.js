@@ -133,6 +133,8 @@ const data = [
                 mesh4.rotation.set(0, -Math.PI / 2, 0);
                 gallery.add(mesh4);
 
+                const light = new THREE.AmbientLight(0xFFFFFF, 2);
+                gallery.add(light);
 
                 console.log("AD loaded");
                 resolve();
