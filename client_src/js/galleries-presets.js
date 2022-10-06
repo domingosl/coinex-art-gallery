@@ -84,15 +84,15 @@ const data = [
             position: {
                 x: 0,
                 y: 1.6,
-                z: 1.5
+                z: 3.5
             },
             fov: 75
         },
         scene: {
-            scale: 0.01,
+            scale: 0.025,
             position: {
                 x: 0,
-                y: 1,
+                y: 0,
                 z: 0
             }
         },
