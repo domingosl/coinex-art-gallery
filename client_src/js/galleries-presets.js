@@ -25,6 +25,11 @@ const data = [
                 y: 1.6,
                 z: 4.5
             },
+            rotation: {
+                x: 0,
+                y: 0,
+                z: 0
+            },
             fov: 75
         },
         scene: {
@@ -40,13 +45,25 @@ const data = [
                 z: 0
             }
         },
+        textSize: 0.03,
         postRenderModifier: (gallery) => new Promise((resolve, reject) => {
 
             const objLoader = new OBJLoader();
 
             objLoader.load('assets/coinex/logo.obj', object => {
 
-                const material = new THREE.MeshPhongMaterial({color: 0x14141F, shininess: 150});
+                const material = new THREE.MeshPhongMaterial({
+                    color: 0x14141F,
+                    metalness: 1.0,
+                    roughness: 0.4,
+                    ambientIntensity: 0.2,
+                    aoMapIntensity: 1.0,
+                    envMapIntensity: 1.0,
+                    displacementScale: 2.436143, // from original model
+                    normalScale: 1.0
+
+
+                });
                 object.scale.set(0.0025, 0.0025, 0.0025);
                 object.rotation.x = Math.PI / 2;
                 object.position.y = 1.4;
@@ -86,9 +103,28 @@ const data = [
         thumbnailURL: "https://picsum.photos/200/200",
         paintings: [
             {
-                pos: {x: 0, y: 0, z: 0},
+                pos: {x: -28.5*1000, y: 48*1000, z: 3.7*1000},
                 rotation: {x: 0, y: 0, z: 0},
-                acceptedAspectRatios: [{ w: 2, h: 3 }]
+                acceptedAspectRatios: [{w: 2, h: 3}],
+                defaultPaintingWidth: 42*1000
+            },
+            {
+                pos: {x: 48*1000, y: 48*1000, z: 3.7*1000},
+                rotation: {x: 0, y: 0, z: 0},
+                acceptedAspectRatios: [{w: 2, h: 3}],
+                defaultPaintingWidth: 42*1000
+            },
+            {
+                pos: {x: -28.5*1000, y: 48*1000, z: -3.7*1000},
+                rotation: {x: 0, y: 1000*Math.PI, z: 0},
+                acceptedAspectRatios: [{w: 2, h: 3}],
+                defaultPaintingWidth: 42*1000
+            },
+            {
+                pos: {x: 48*1000, y: 48*1000, z: -3.7*1000},
+                rotation: {x: 0, y: 1000*Math.PI, z: 0},
+                acceptedAspectRatios: [{w: 2, h: 3}],
+                defaultPaintingWidth: 42*1000
             }
         ],
         camera: {
@@ -96,6 +132,11 @@ const data = [
                 x: 0,
                 y: 1.6,
                 z: 4.2
+            },
+            rotation: {
+                x: 0,
+                y: 0,
+                z: 0
             },
             fov: 75
         },
@@ -112,6 +153,7 @@ const data = [
                 z: 0
             }
         },
+        textSize: 1,
         postRenderModifier: (gallery) => new Promise((resolve, reject) => {
             const loader = new THREE.TextureLoader();
 

@@ -22,9 +22,7 @@ const queryParams = new Proxy(new URLSearchParams(window.location.search), {
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
-import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 
 const gltfLoader = new GLTFLoader();
 const scene = new THREE.Scene();
@@ -152,6 +150,8 @@ window.loadGallery = async () => {
 
     await init3d(galleryIndex);
 
+    const galleryPreset = galleriesPresets.findById(galleryIndex);
+
     for(const painting in paintings) {
         displayPainting(
             gallery,
@@ -163,6 +163,7 @@ window.loadGallery = async () => {
             paintings[painting].rotZ,
             paintings[painting].width,
             paintings[painting].aspect,
+            galleryPreset.textSize,
             paintings[painting].url
         );
     }

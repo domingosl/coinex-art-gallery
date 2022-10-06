@@ -196,16 +196,20 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
 
             !validationOnly && loader.showStatus("Populating gallery");
 
+
+            const _acceptedAspectRatios = paintingMeta.acceptedAspectRatios || acceptedAspectRatios;
+
             !validationOnly && displayPainting(
                 gallery,
-                painting3dMeta.pos.x,
-                painting3dMeta.pos.y,
-                painting3dMeta.pos.z,
-                painting3dMeta.rotation.x,
-                painting3dMeta.rotation.y,
-                painting3dMeta.rotation.z,
-                defaultPaintingWidth,
-                parseInt(1000*acceptedAspectRatios[paintingMeta.canvas].w / acceptedAspectRatios[paintingMeta.canvas].h),
+                parseInt(painting3dMeta.pos.x),
+                parseInt(painting3dMeta.pos.y),
+                parseInt(painting3dMeta.pos.z),
+                parseInt(painting3dMeta.rotation.x),
+                parseInt(painting3dMeta.rotation.y),
+                parseInt(painting3dMeta.rotation.z),
+                parseInt(painting3dMeta.defaultPaintingWidth ?  painting3dMeta.defaultPaintingWidth : defaultPaintingWidth),
+                parseInt(1000*_acceptedAspectRatios[paintingMeta.canvas].w / _acceptedAspectRatios[paintingMeta.canvas].h),
+                $scope.formData.selectedGallery.textSize,
                 paintingMeta.url
             );
 
@@ -266,16 +270,18 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
             if(!paintingMeta.url)
                 continue;
 
+            const _acceptedAspectRatios = paintingMeta.acceptedAspectRatios || acceptedAspectRatios;
+
             paintingsArr.push([
                 'foo', //TODO: Implement NFT name
-                painting3dMeta.pos.x,
-                painting3dMeta.pos.y,
-                painting3dMeta.pos.z,
-                painting3dMeta.rotation.x,
-                painting3dMeta.rotation.y,
-                painting3dMeta.rotation.z,
-                defaultPaintingWidth,
-                parseInt(1000*acceptedAspectRatios[paintingMeta.canvas].w / acceptedAspectRatios[paintingMeta.canvas].h),
+                parseInt(painting3dMeta.pos.x),
+                parseInt(painting3dMeta.pos.y),
+                parseInt(painting3dMeta.pos.z),
+                parseInt(painting3dMeta.rotation.x),
+                parseInt(painting3dMeta.rotation.y),
+                parseInt(painting3dMeta.rotation.z),
+                parseInt(painting3dMeta.defaultPaintingWidth ?  painting3dMeta.defaultPaintingWidth : defaultPaintingWidth),
+                parseInt(1000*_acceptedAspectRatios[paintingMeta.canvas].w / _acceptedAspectRatios[paintingMeta.canvas].h),
                 paintingMeta.url
             ]);
 

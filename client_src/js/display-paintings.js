@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import ui from "./ui";
 
 const loader = new THREE.TextureLoader();
 
@@ -27,15 +28,18 @@ function displayPainting(
     zRot = 0,
     width = 0.5,
     ar,
+    textSize,
     imageURL) {
 
+    console.log("Displaying painting", {x,y,z,xRot,yRot,zRot,width,ar,imageURL});
+
     const material = new THREE.MeshBasicMaterial();
-    const texture = loader.load(imageURL, (_texture) => {
+    const texture = loader.load(imageURL, async (_texture) => {
         console.log("Texture loaded!", imageURL);
 
         _texture.matrixAutoUpdate = false;
 
-        const aspect = ar/1000;
+        const aspect = ar/1000; console.log(">>>", aspect);
         const imageAspect = _texture.image.width / _texture.image.height;
 
         if (aspect < imageAspect) {
@@ -52,6 +56,15 @@ function displayPainting(
 
         mesh.position.set(x/1000, y/1000, z/1000);
         mesh.rotation.set(xRot/1000, yRot/1000, zRot/1000);
+
+        await ui.displayTextBox(
+            mesh,
+            "NFT: Painting name is veryyyyyyyyyy looooooong!!!!\nBy XXX",
+            textSize,
+            "left",
+            {x:-width/2000,y:-(width/2000) / aspect,z:0},
+            {x:0,y:0,z:0}
+        );
 
         scene.add(mesh);
 
