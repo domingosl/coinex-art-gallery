@@ -91,6 +91,10 @@ window.init3d = (id) => new Promise((resolve, reject) => {
 
             renderer.xr.addEventListener('sessionstart', function () {
                 //scene.position.z -= 2;
+                cameraGroup.position.x = galleryPreset.camera.position.x;
+                //cameraGroup.position.y = galleryPreset.camera.position.y;
+                cameraGroup.position.z = galleryPreset.camera.position.z;
+                console.log(cameraGroup);
                 const { controller1, controller2 } = controllers.load(renderer, cameraGroup);
                 locomotion.load(scene, renderer, camera, cameraGroup, rafCallbacks, controller1, controller2)
             });

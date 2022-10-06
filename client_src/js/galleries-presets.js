@@ -23,9 +23,9 @@ const data = [
             position: {
                 x: 0,
                 y: 1.6,
-                z: 4
+                z: 4.5
             },
-            fov: 50
+            fov: 75
         },
         scene: {
             scale: 1,
@@ -52,7 +52,7 @@ const data = [
                     }
                 });
 
-                const light1 = new THREE.PointLight("#FFFFFF", 3);
+/*                const light1 = new THREE.PointLight("#FFFFFF", 3);
                 light1.position.set(-3, 2, -3);
                 light1.lookAt(0, 0, 0);
                 light1.castShadow = true;
@@ -60,9 +60,14 @@ const data = [
                 light2.position.set(-3, 2, 3);
                 light2.lookAt(0, 0, 0);
                 light2.castShadow = true;
-                gallery.add(object);
                 gallery.add(light1);
-                gallery.add(light2);
+                gallery.add(light2);*/
+
+                const light = new THREE.AmbientLight(0xFFFFFF, 2);
+                gallery.add(light);
+
+                gallery.add(object);
+
                 resolve();
             });
 
@@ -77,19 +82,20 @@ const data = [
         paintings: [
             {
                 pos: {x: 0, y: 0, z: 0},
-                rotation: {x: 0, y: 0, z: 0}
+                rotation: {x: 0, y: 0, z: 0},
+                acceptedAspectRatios: [{ w: 2, h: 3 }]
             }
         ],
         camera: {
             position: {
                 x: 0,
                 y: 1.6,
-                z: 3.5
+                z: 5
             },
             fov: 75
         },
         scene: {
-            scale: 0.025,
+            scale: 0.028,
             position: {
                 x: 0,
                 y: 0,
@@ -99,22 +105,35 @@ const data = [
         postRenderModifier: (gallery) => new Promise((resolve, reject) => {
             const loader = new THREE.TextureLoader();
 
-            const texture = loader.load('/assets/img/powered-by-coinex.png', (_texture) => {
+            loader.load('/assets/img/powered-by-coinex.png', (_texture) => {
 
-                const geometry = new THREE.PlaneGeometry(33, 69);
+                const geometry = new THREE.PlaneGeometry(34, 69.5);
                 const material = new THREE.MeshBasicMaterial({
                     side: THREE.DoubleSide
                 });
                 material.map = _texture;
 
-                const mesh = new THREE.Mesh(geometry, material);
+                const mesh1 = new THREE.Mesh(geometry, material);
+                mesh1.position.set(13.2, 48, -30.3);
+                mesh1.rotation.set(0, Math.PI / 2, 0);
+                gallery.add(mesh1);
 
-                mesh.position.set(13.2, 48, -30.5);
-                mesh.rotation.set(0, Math.PI / 2, 0);
+                const mesh2 = new THREE.Mesh(geometry, material);
+                mesh2.position.set(13.2, 48, 30.3);
+                mesh2.rotation.set(0, Math.PI / 2, 0);
+                gallery.add(mesh2);
 
-                window.foo = mesh;
+                const mesh3 = new THREE.Mesh(geometry, material);
+                mesh3.position.set(6.5, 48, -30.3);
+                mesh3.rotation.set(0, -Math.PI / 2, 0);
+                gallery.add(mesh3);
 
-                gallery.add(mesh);
+                const mesh4 = new THREE.Mesh(geometry, material);
+                mesh4.position.set(6.5, 48, 30.3);
+                mesh4.rotation.set(0, -Math.PI / 2, 0);
+                gallery.add(mesh4);
+
+
                 console.log("AD loaded");
                 resolve();
 

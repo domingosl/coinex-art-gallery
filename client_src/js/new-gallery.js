@@ -2,7 +2,8 @@ require('dotenv').config();
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 const galleriesPresets = require('../js/galleries-presets');
 const loader = require('../js/blocking-loader');
@@ -16,6 +17,7 @@ const renderer = new THREE.WebGLRenderer({
     alpha: true,
     antialias: true
 });
+
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -23,9 +25,8 @@ let scene;
 let camera;
 let gallery;
 let animReqId;
+let controls;
 const defaultPaintingWidth = 1300;
-
-
 
 function resizeCanvasToDisplaySize() {
 
@@ -46,18 +47,14 @@ function resizeCanvasToDisplaySize() {
     //}
 }
 
-
-
-
-
-
 window.addEventListener("resize", resizeCanvasToDisplaySize, false);
 
 
 function animate() {
     animReqId = requestAnimationFrame(animate);
     //gallery.rotation.y = 2 * Math.PI * Math.sin(new Date().getTime() / 10000);
-    gallery.rotation.y = -2*Math.PI/3;
+    //gallery.rotation.y = 2*Math.PI/3;
+    controls.update()
     renderer.render(scene, camera);
 }
 
@@ -84,6 +81,15 @@ const loadPreview = (galleryId) => new Promise((resolve, reject) => {
                 0.1,
                 1000
             );
+
+            controls = new OrbitControls( camera, renderer.domElement );
+            controls.enableKeys = false;
+            controls.minPolarAngle = 10*Math.PI/180;
+            controls.maxPolarAngle = Math.PI / 2.5;
+            controls.maxDistance = 5;
+            controls.minDistance = 4;
+
+            controls.autoRotate = true;
 
             camera.position.set(
                 galleryPreset.camera.position.x,
@@ -138,8 +144,7 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
         selectedGalleryId: 1,
         selectedGallery: galleriesPresets.findById(1),
         galleries: galleriesPresets.list(),
-        paintings: null,
-        canvasAspectRatios: acceptedAspectRatios
+        paintings: null
     };
 
     $scope.selectGallery = id => {
@@ -158,7 +163,8 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
     const initializePaintings = () => {
         $scope.formData.paintings = [];
         for(let x = 0; x < $scope.formData.selectedGallery.paintings.length; x++) {
-            $scope.formData.paintings.push({ url: null, canvas: null });
+            const paintingAcceptedAspectRatios = $scope.formData.selectedGallery.paintings[x].acceptedAspectRatios;
+            $scope.formData.paintings.push({ url: null, canvas: null, acceptedAspectRatios: paintingAcceptedAspectRatios || acceptedAspectRatios });
         }
     }
 

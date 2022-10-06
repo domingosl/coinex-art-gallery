@@ -51,7 +51,7 @@
                     <div class="col-lg-3">
                         <select class="form-control" ng-model="formData.paintings[$index].canvas">
                             <option selected disabled ng-value="null">Canvas</option>
-                            <option ng-repeat="canvasAspectRatio in formData.canvasAspectRatios" ng-value="$index">{{canvasAspectRatio.w}} to {{canvasAspectRatio.h}}</option>
+                            <option ng-repeat="canvasAspectRatio in _painting.acceptedAspectRatios" ng-value="$index">{{canvasAspectRatio.w}} to {{canvasAspectRatio.h}}</option>
                         </select>
                     </div>
                 </div>
