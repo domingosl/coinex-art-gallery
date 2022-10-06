@@ -71,6 +71,10 @@ window.init3d = (id) => new Promise((resolve, reject) => {
                 galleryPreset.scene.position.x,
                 galleryPreset.scene.position.y,
                 galleryPreset.scene.position.z);
+            gallery.rotation.set(
+                galleryPreset.scene.rotation.x,
+                galleryPreset.scene.rotation.y,
+                galleryPreset.scene.rotation.z);
 
             camera.fov = (galleryPreset.camera.fov);
             camera.updateProjectionMatrix();

@@ -33,6 +33,11 @@ const data = [
                 x: 0,
                 y: 0,
                 z: 0
+            },
+            rotation: {
+                x: 0,
+                y: 0,
+                z: 0
             }
         },
         postRenderModifier: (gallery) => new Promise((resolve, reject) => {
@@ -52,16 +57,16 @@ const data = [
                     }
                 });
 
-/*                const light1 = new THREE.PointLight("#FFFFFF", 3);
+                const light1 = new THREE.PointLight("#FFFFFF", 2);
                 light1.position.set(-3, 2, -3);
                 light1.lookAt(0, 0, 0);
                 light1.castShadow = true;
-                const light2 = new THREE.PointLight("#FFFFFF", 3);
+                const light2 = new THREE.PointLight("#FFFFFF", 2);
                 light2.position.set(-3, 2, 3);
                 light2.lookAt(0, 0, 0);
                 light2.castShadow = true;
                 gallery.add(light1);
-                gallery.add(light2);*/
+                gallery.add(light2);
 
                 const light = new THREE.AmbientLight(0xFFFFFF, 2);
                 gallery.add(light);
@@ -90,7 +95,7 @@ const data = [
             position: {
                 x: 0,
                 y: 1.6,
-                z: 5
+                z: 4.2
             },
             fov: 75
         },
@@ -99,6 +104,11 @@ const data = [
             position: {
                 x: 0,
                 y: 0,
+                z: 0
+            },
+            rotation: {
+                x: 0,
+                y: Math.PI / 3,
                 z: 0
             }
         },
@@ -133,7 +143,7 @@ const data = [
                 mesh4.rotation.set(0, -Math.PI / 2, 0);
                 gallery.add(mesh4);
 
-                const light = new THREE.AmbientLight(0xFFFFFF, 2);
+                const light = new THREE.AmbientLight(0xFFFFFF, 20);
                 gallery.add(light);
 
                 console.log("AD loaded");
