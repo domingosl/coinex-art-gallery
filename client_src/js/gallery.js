@@ -124,12 +124,15 @@ window.init3d = (id) => new Promise((resolve, reject) => {
 
 window.loadGallery = async () => {
 
-    if(!contractAddrReg.test(queryParams.g) && (queryParams.g !== 'example'))
+    if(!contractAddrReg.test(queryParams.g) && queryParams.g !== 'example1' && queryParams.g !== 'example2')
         return alert("Invalid Gallery Address!");
 
     web3 = new Web3(process.env.COINEX_NET_RPC_URL);
 
-    contract = new web3.eth.Contract(abi, queryParams.g === 'example' ? process.env.GALLERY_EXAMPLE_1 : queryParams.g);
+    contract = new web3.eth.Contract(abi,
+        queryParams.g === 'example1' ?
+            process.env.GALLERY_EXAMPLE_1 : queryParams.g === 'example2' ?
+                process.env.GALLERY_EXAMPLE_2 : queryParams.g);
 
     loader.show();
 
