@@ -29,9 +29,7 @@ function displayPainting(
     ar,
     imageURL) {
 
-    const material = new THREE.MeshBasicMaterial({
-        //side: THREE.DoubleSide
-    });
+    const material = new THREE.MeshBasicMaterial();
     const texture = loader.load(imageURL, (_texture) => {
         console.log("Texture loaded!", imageURL);
 

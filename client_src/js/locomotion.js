@@ -9,21 +9,23 @@ import {
     BufferAttribute,
     LineBasicMaterial,
     AdditiveBlending,
-    Line
+    Line,
+    Raycaster,
+    ArrowHelper
 } from  'three';
 
 module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, controller1, controller2) => {
 
     const locomotion = require('./fade')(camera, cameraGroup);
 
-// Utility Vectors
+    // Utility Vectors
     const g = new Vector3(0,-9.8,0);
     const tempVec = new Vector3();
     const tempVec1 = new Vector3();
     const tempVecP = new Vector3();
     const tempVecV = new Vector3();
 
-// Guideline parabola function
+    // Guideline parabola function
     function positionAtT(inVec,t,p,v,g) {
         inVec.copy(p);
         inVec.addScaledVector(v,t);
@@ -31,8 +33,8 @@ module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, contr
         return inVec;
     }
 
-// The guideline
-    const lineSegments=10;
+    // The guideline
+    const lineSegments=20;
     const lineGeometry = new BufferGeometry();
     const lineGeometryVertices = new Float32Array((lineSegments +1) * 3);
     lineGeometryVertices.fill(0);
@@ -43,10 +45,10 @@ module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, contr
     const lineMaterial = new LineBasicMaterial({ vertexColors: true, blending: AdditiveBlending });
     const guideline = new Line( lineGeometry, lineMaterial );
 
-// The light at the end of the line
+    // The light at the end of the line
     const guideLight = new PointLight(0xffeeaa, 0, 2);
 
-// The target on the ground
+    // The target on the ground
     const guideSpriteTexture = new TextureLoader().load('/assets/img/target.png');
     const guideSprite = new Mesh(
         new PlaneGeometry(0.3, 0.3, 1, 1),
@@ -78,17 +80,7 @@ module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, contr
         scene.add(guideSprite);
     }
 
-    function onPointStart() {
-
-        const controller = this;
-
-        console.log("startGuide", controller);
-
-        guidingController = controller;
-        guideLight.intensity = 1;
-        controller.add(guideline);
-        scene.add(guideSprite);
-    }
+    const raycaster = new Raycaster();
 
     function onSelectEnd() {
         if (guidingController === this) {
@@ -106,6 +98,22 @@ module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, contr
             v.multiplyScalar(6);
             const t = (-v.y  + Math.sqrt(v.y**2 - 2*p.y*g.y))/g.y;
             const cursorPos = positionAtT(tempVec1,t,p,v,g);
+
+/*            console.log(cursorPos);
+            let cursorPosRaised = Object.assign(cursorPos);
+            cursorPosRaised.y += 1;
+            console.log(cursorPosRaised);
+
+            raycaster.setFromCamera(cursorPosRaised, camera);
+
+
+            const intersects = raycaster.intersectObjects(scene.children);
+            intersects.forEach(intersect => {
+                if(intersect.object.type !== 'Mesh')
+                    return;
+                console.log(intersect);
+                intersect.object.material.color.set(0xff0000);
+            });*/
 
             // Offset
             const offset = cursorPos.addScaledVector(feetPos ,-1);

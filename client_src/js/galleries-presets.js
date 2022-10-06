@@ -95,7 +95,32 @@ const data = [
                 y: 1,
                 z: 0
             }
-        }
+        },
+        postRenderModifier: (gallery) => new Promise((resolve, reject) => {
+            const loader = new THREE.TextureLoader();
+
+            const texture = loader.load('/assets/img/powered-by-coinex.png', (_texture) => {
+
+                const geometry = new THREE.PlaneGeometry(33, 69);
+                const material = new THREE.MeshBasicMaterial({
+                    side: THREE.DoubleSide
+                });
+                material.map = _texture;
+
+                const mesh = new THREE.Mesh(geometry, material);
+
+                mesh.position.set(13.2, 48, -30.5);
+                mesh.rotation.set(0, Math.PI / 2, 0);
+
+                window.foo = mesh;
+
+                gallery.add(mesh);
+                console.log("AD loaded");
+                resolve();
+
+            });
+
+        })
     }
 ];
 

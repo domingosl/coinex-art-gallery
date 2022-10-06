@@ -56,7 +56,8 @@ window.addEventListener("resize", resizeCanvasToDisplaySize, false);
 
 function animate() {
     animReqId = requestAnimationFrame(animate);
-    gallery.rotation.y = 2 * Math.PI * Math.sin(new Date().getTime() / 10000);
+    //gallery.rotation.y = 2 * Math.PI * Math.sin(new Date().getTime() / 10000);
+    gallery.rotation.y = -2*Math.PI/3;
     renderer.render(scene, camera);
 }
 
