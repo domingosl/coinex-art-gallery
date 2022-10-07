@@ -96,6 +96,7 @@ const loadPreview = (galleryId) => new Promise((resolve, reject) => {
                 galleryPreset.camera.position.y,
                 galleryPreset.camera.position.z
             );
+            camera.lookAt(0,1.6,0);
             scene = new THREE.Scene();
 
             if(typeof galleryPreset.postRenderModifier === 'function')

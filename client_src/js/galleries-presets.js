@@ -194,6 +194,48 @@ const data = [
             });
 
         })
+    },
+    {
+        id: 3,
+        name: "Big open space",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rutrum interdum felis elementum mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        location: "assets/gallery-3/scene.gltf",
+        thumbnailURL: "https://picsum.photos/200/200",
+        paintings: [
+            {
+                pos: {x: 0, y: 0, z: 0},
+                rotation: {x: 0, y: 0, z: 0},
+                acceptedAspectRatios: [{w: 2, h: 3}],
+                defaultPaintingWidth: 2
+            }
+        ],
+        camera: {
+            position: {
+                x: 0,
+                y: 1.6,
+                z: 0
+            },
+            rotation: {
+                x: 0,
+                y: 0,
+                z: 0
+            },
+            fov: 75
+        },
+        scene: {
+            scale: 0.25,
+            position: {
+                x: 0,
+                y: 0,
+                z: 0
+            },
+            rotation: {
+                x: 0,
+                y: 0,
+                z: 0
+            }
+        },
+        textSize: 1
     }
 ];
 
