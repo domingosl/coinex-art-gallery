@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pocket VR powered by CoinEx</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -13,9 +14,11 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="mb-auto">
         <div>
-            <h3 class="float-md-start mb-0"><img height="60" src="./img/pocket-vr-logo.png"></h3>
-            <nav class="nav nav-masthead justify-content-center float-md-end">
-                <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="#">In depth</a>
+            <h3 class="float-sm-start mb-0">
+                <img height="60" src="./img/pocket-vr-logo.png">
+            </h3>
+            <nav class="nav nav-masthead justify-content-center float-sm-end">
+                <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="#">Light paper</a>
             </nav>
         </div>
     </header>
@@ -30,12 +33,12 @@
                 <p class="lead isolate">Immortalize your art work on the <strong>CoinEx blockchain</strong></p>
                 <p class="lead">
 
-                    <a href="#" class="button btn-main">Create your own VR gallery</a>
+                    <a href="./new-gallery.html" class="button btn-main">Create your own VR gallery</a>
                     <a href="#" class="button small">Explore other galleries</a>
                 </p>
             </div>
-            <div class="col-lg-6 d-sm-none d-lg-block">
-                <canvas id="litle-verse" class="gallery-preview"></canvas>
+            <div class="col-lg-6 d-none d-lg-block">
+                <img class="home-bg" src="./img/home-bg.png">
             </div>
         </div>
 
