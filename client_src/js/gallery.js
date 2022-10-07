@@ -24,6 +24,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 
+const listener = new THREE.AudioListener();
+
 const gltfLoader = new GLTFLoader();
 const scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(
@@ -32,6 +34,8 @@ let camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
+
+camera.add(listener);
 
 const cameraGroup = new THREE.Group();
 cameraGroup.add(camera);
@@ -57,7 +61,7 @@ window.init3d = (id) => new Promise((resolve, reject) => {
 
     const galleryPreset = galleriesPresets.findById(id);
 
-    console.log("Gallery Preset", galleryPreset);
+    console.log("Gallery Preset:", galleryPreset);
 
     gltfLoader.load(
         galleryPreset.location,
@@ -91,14 +95,32 @@ window.init3d = (id) => new Promise((resolve, reject) => {
 
             const rafCallbacks = new Set();
 
+
+            let sound = new THREE.Audio( listener );
+
+
+
             renderer.xr.addEventListener('sessionstart', function () {
-                //scene.position.z -= 2;
+
                 cameraGroup.position.x = galleryPreset.camera.position.x;
-                //cameraGroup.position.y = galleryPreset.camera.position.y;
                 cameraGroup.position.z = galleryPreset.camera.position.z;
-                console.log(cameraGroup);
+
                 const { controller1, controller2 } = controllers.load(renderer, cameraGroup);
-                locomotion.load(scene, renderer, camera, cameraGroup, rafCallbacks, controller1, controller2)
+                locomotion.load(scene, renderer, camera, cameraGroup, rafCallbacks, controller1, controller2);
+
+                // load a sound and set it as the Audio object's buffer
+                const audioLoader = new THREE.AudioLoader();
+                audioLoader.load( '/assets/music/ambient.mp3', function( buffer ) {
+                    sound.setBuffer( buffer );
+                    sound.setLoop( true );
+                    sound.setVolume( 0.1 );
+                    sound.play();
+                });
+
+            });
+
+            renderer.xr.addEventListener('sessionend', function () {
+                sound.stop();
             });
 
             window.addEventListener('resize', onWindowResize, false);

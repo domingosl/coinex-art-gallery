@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "rm -rf ./dist && mkdir ./dist && cp -R ./assets ./dist && parcel ./client_src/index.html ./client_src/gallery.html ./client_src/new-gallery.html",
+    "dev": "rm -rf ./dist && rm -rf ./.parcel-cache && mkdir ./dist && cp -R ./assets ./dist && parcel ./client_src/index.html ./client_src/gallery.html ./client_src/new-gallery.html",
     "build": "rm -rf ./dist && mkdir ./dist && cp -R ./assets ./dist && parcel build ./client_src/index.html ./client_src/gallery.html ./client_src/new-gallery.html",
     "vr": "openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout dist/key.pem -out dist/cert.pem && cd dist && http-server -S -C cert.pem -o"
   },
