@@ -11,7 +11,8 @@ import {
     AdditiveBlending,
     Line,
     Raycaster,
-    ArrowHelper
+    ArrowHelper,
+    SphereGeometry
 } from  'three';
 
 module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, controller1, controller2) => {
@@ -99,27 +100,29 @@ module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, contr
             const t = (-v.y  + Math.sqrt(v.y**2 - 2*p.y*g.y))/g.y;
             const cursorPos = positionAtT(tempVec1,t,p,v,g);
 
-/*            console.log(cursorPos);
-            let cursorPosRaised = Object.assign(cursorPos);
-            cursorPosRaised.y += 1;
-            console.log(cursorPosRaised);
+            const headPosition = renderer.xr.getCamera(camera).position;
 
-            raycaster.setFromCamera(cursorPosRaised, camera);
+            const directionToTarget = new Vector3();
+            directionToTarget.subVectors( cursorPos, headPosition).normalize();
 
+            raycaster.set(headPosition, directionToTarget);
 
             const intersects = raycaster.intersectObjects(scene.children);
-            intersects.forEach(intersect => {
-                if(intersect.object.type !== 'Mesh')
-                    return;
-                console.log(intersect);
-                intersect.object.material.color.set(0xff0000);
-            });*/
+            let collision = false;
+            for(const intersect of intersects) {
+                if(intersect.object.type === 'Mesh' && intersect.point.y >= 0.2) {
+                    intersect.object.material.color.set(0xff0000);
+                    console.log("COLLISION FOUND!", intersect.point);
+                    collision = true;
+                    break;
+                }
+            }
 
             // Offset
             const offset = cursorPos.addScaledVector(feetPos ,-1);
 
             // Do the locomotion
-            locomotion(offset);
+            !collision && locomotion(offset);
 
             // clean up
             guidingController = null;
