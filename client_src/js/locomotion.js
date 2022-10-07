@@ -10,9 +10,7 @@ import {
     LineBasicMaterial,
     AdditiveBlending,
     Line,
-    Raycaster,
-    ArrowHelper,
-    SphereGeometry
+    Raycaster
 } from  'three';
 
 module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, controller1, controller2) => {
@@ -110,8 +108,7 @@ module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, contr
             const intersects = raycaster.intersectObjects(scene.children);
             let collision = false;
             for(const intersect of intersects) {
-                if(intersect.object.type === 'Mesh' && intersect.point.y >= 0.2) {
-                    intersect.object.material.color.set(0xff0000);
+                if(intersect.object.type === 'Mesh' && intersect.point.y >= 0.1) {
                     console.log("COLLISION FOUND!", intersect.point);
                     collision = true;
                     break;
