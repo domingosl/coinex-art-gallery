@@ -45,11 +45,11 @@ module.exports.deploy = (galleryId, paintings) => new Promise(async (resolve, re
 
 });
 
+//Not in use
 module.exports.createNFT = async (contractAddress, name, posX, posY, posZ, rotX, rotY, rotZ, width, aspect, url) => {
 
     const contract = new web3.eth.Contract(abi, contractAddress);
     window.contract = contract;
     const result = await contract.methods.mint(name, posX, posY, posZ, rotX, rotY, rotZ, width, aspect, url).send({from: mainAccount});
-    console.log(result);
 
 }

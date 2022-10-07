@@ -59,6 +59,7 @@ function onWindowResize() {
 
 window.init3d = (id) => new Promise((resolve, reject) => {
 
+    let gallery;
     const galleryPreset = galleriesPresets.findById(id);
 
     console.log("Gallery Preset:", galleryPreset);
@@ -90,7 +91,6 @@ window.init3d = (id) => new Promise((resolve, reject) => {
             if(typeof galleryPreset.postRenderModifier === 'function')
                 await galleryPreset.postRenderModifier(gallery);
 
-            scene.add(gallery);
             scene.add(cameraGroup);
 
             const rafCallbacks = new Set();
@@ -135,7 +135,7 @@ window.init3d = (id) => new Promise((resolve, reject) => {
                 //controls.update();
             });
 
-            resolve();
+            resolve(gallery);
 
         },
         () => {},
@@ -170,12 +170,13 @@ window.loadGallery = async () => {
 
     console.log("Paintings", paintings);
 
-    await init3d(galleryIndex);
+    const gallery = await init3d(galleryIndex);
 
     const galleryPreset = galleriesPresets.findById(galleryIndex);
 
+    const promises = [];
     for(const painting in paintings) {
-        displayPainting(
+        promises.push(await displayPainting(
             gallery,
             paintings[painting].posX,
             paintings[painting].posY,
@@ -187,8 +188,11 @@ window.loadGallery = async () => {
             paintings[painting].aspect,
             galleryPreset.textSize,
             paintings[painting].url
-        );
+        ));
     }
+
+    await Promise.allSettled(promises);
+    scene.add(gallery);
 
     loader.hide();
 

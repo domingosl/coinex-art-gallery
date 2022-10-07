@@ -178,8 +178,6 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
             const paintingMeta = $scope.formData.paintings[x];
             const painting3dMeta = $scope.formData.selectedGallery.paintings[x];
 
-            console.log(x, paintingMeta);
-
             if(paintingMeta.url && paintingMeta.canvas === null) {
                 return Promise.reject("Select all missing canvas aspect ratios");
             } else if(!paintingMeta.url)

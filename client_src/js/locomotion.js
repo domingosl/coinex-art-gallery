@@ -186,11 +186,12 @@ module.exports.load = (scene, renderer, camera, cameraGroup, rafCallbacks, contr
                 guidingController.worldToLocal(vertex);
                 vertex.toArray(lineGeometryVertices,i*3);
             }
+
             guideline.geometry.attributes.position.needsUpdate = true;
 
             // Place the light and sprite near the end of the line
-            positionAtT(guideLight.position,t*0.98,p,v,g);
-            positionAtT(guideSprite.position,t*0.98,p,v,g);
+            positionAtT(guideLight.position,t*0.99,p,v,g);
+            positionAtT(guideSprite.position,t*0.99,p,v,g);
         }
     });
 

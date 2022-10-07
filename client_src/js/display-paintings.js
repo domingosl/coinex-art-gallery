@@ -18,7 +18,7 @@ const acceptedAspectRatios = [
     { w: 2, h: 3 }
 ];
 
-function displayPainting(
+const displayPainting = async (
     scene,
     x = 0,
     y = 0,
@@ -29,7 +29,7 @@ function displayPainting(
     width = 0.5,
     ar,
     textSize,
-    imageURL) {
+    imageURL) => new Promise(resolve => {
 
     console.log("Displaying painting", {x,y,z,xRot,yRot,zRot,width,ar,imageURL});
 
@@ -39,7 +39,7 @@ function displayPainting(
 
         _texture.matrixAutoUpdate = false;
 
-        const aspect = ar/1000; console.log(">>>", aspect);
+        const aspect = ar/1000;
         const imageAspect = _texture.image.width / _texture.image.height;
 
         if (aspect < imageAspect) {
@@ -70,9 +70,10 @@ function displayPainting(
 
         paintingsMeshCache.push(mesh);
 
+        resolve();
     });
 
-}
+});
 
 function clearPaintings(scene) {
     paintingsMeshCache.forEach(painting => scene.remove(painting));
