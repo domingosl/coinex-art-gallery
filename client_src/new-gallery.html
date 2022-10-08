@@ -2,7 +2,7 @@
 <html lang="en" ng-app="newGallery">
 <head>
     <meta charset="UTF-8">
-    <title>Coinex New Gallery</title>
+    <title>CSC New Gallery</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="./scss/new-gallery.scss"/>
     <script type="module" src="./js/new-gallery.js"></script>
@@ -33,7 +33,7 @@
 
                 <br />
 
-                <a href="#" ng-click="goTo('paintingsSelection')" class="button btn-main">Place your paintings</a>
+                <button ng-click="goTo('paintingsSelection')" ng-if="formData.selectedGallery.enabled" class="button btn-main">Place your paintings</button>
             </div>
 
             <div class="step" ng-if="formData.currentStep === 'paintingsSelection'">

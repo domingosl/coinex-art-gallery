@@ -1,5 +1,20 @@
 @import "global";
 
+
 body {
   margin: 0;
+}
+
+#VRButton {
+  background: rgba(81, 66, 252, 0.9) !important;
+  opacity: 1 !important;
+  width: 300px !important;
+  border: none !important;
+  color: #fff !important;
+  left: calc(50% - 150px) !important;
+  font-family: "Urbanist", sans-serif !important;
+  font-size: 20px !important;
+  border-radius: 30px !important;
+  padding: 11px 35px !important;
+  font-weight: bold !important;
 }

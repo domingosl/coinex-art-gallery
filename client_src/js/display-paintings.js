@@ -29,7 +29,7 @@ const displayPainting = async (
     width = 0.5,
     ar,
     textSize,
-    imageURL) => new Promise(resolve => {
+    imageURL) => new Promise((resolve, reject) => {
 
     console.log("Displaying painting", {x,y,z,xRot,yRot,zRot,width,ar,imageURL});
 
@@ -71,6 +71,9 @@ const displayPainting = async (
         paintingsMeshCache.push(mesh);
 
         resolve();
+    }, ()=>{},
+        (error, foo)=>{
+        reject({error, foo});
     });
 
 });

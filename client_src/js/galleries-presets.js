@@ -4,10 +4,11 @@ import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
 const data = [
     {
         id: 1,
+        enabled: true,
         name: "Small Open Space",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rutrum interdum felis elementum mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "This setting allows you to publish up to 9 paintings in many available canvas sizes, ideal for frame-less paintings.",
         location: "assets/gallery-1/scene.gltf",
-        thumbnailURL: "https://picsum.photos/200/200",
+        thumbnailURL: "assets/img/gallery-1.png",
         paintings: [
             {pos: {x: 0, y: 1500, z: -4900}, rotation: {x: 0, y: 0, z: 0}},
             {pos: {x: -3000, y: 1500, z: -4900}, rotation: {x: 0, y: 0, z: 0}},
@@ -97,10 +98,11 @@ const data = [
     },
     {
         id: 2,
+        enabled: true,
         name: "Small Centric",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rutrum interdum felis elementum mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "An small art gallery with space for a maximum of 4 paintings in 2/3 tall vertical canvas.",
         location: "assets/gallery-2/scene.gltf",
-        thumbnailURL: "https://picsum.photos/200/200",
+        thumbnailURL: "assets/img/gallery-2.png",
         paintings: [
             {
                 pos: {x: -28.5*1000, y: 48*1000, z: 3.7*1000},
@@ -157,7 +159,7 @@ const data = [
         postRenderModifier: (gallery) => new Promise((resolve, reject) => {
             const loader = new THREE.TextureLoader();
 
-            loader.load('/assets/img/powered-by-coinex.png', (_texture) => {
+            loader.load('/assets/img/powered-by-csc.png', (_texture) => {
 
                 const geometry = new THREE.PlaneGeometry(34, 69.5);
                 const material = new THREE.MeshBasicMaterial({
@@ -197,10 +199,11 @@ const data = [
     },
     {
         id: 3,
+        enabled: false,
         name: "Big open space",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rutrum interdum felis elementum mattis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: ":::Work in progress::: A bigger gallery for up to 16 tall vertical canvas in 2/3 aspect ratio. At the time this gallery is closed for optimization re-work.",
         location: "assets/gallery-3/scene.gltf",
-        thumbnailURL: "https://picsum.photos/200/200",
+        thumbnailURL: "assets/img/gallery-3.png",
         paintings: [
             {
                 pos: {x: 0, y: 0, z: 0},
@@ -235,7 +238,7 @@ const data = [
                 z: 0
             }
         },
-        textSize: 1
+        textSize: 0.01
     }
 ];
 

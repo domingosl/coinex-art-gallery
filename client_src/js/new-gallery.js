@@ -32,19 +32,14 @@ function resizeCanvasToDisplaySize() {
 
     const canvas = renderer.domElement;
 
-    // look up the size the canvas is being displayed
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
 
-    // adjust displayBuffer size to match
-    //if (canvas.width !== width || canvas.height !== height) {
-        // you must pass false here or three.js sadly fights the browser
-        renderer.setSize(width, height, false);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
 
-        // update any render target sizes here
-    //}
+
 }
 
 window.addEventListener("resize", resizeCanvasToDisplaySize, false);
@@ -52,8 +47,6 @@ window.addEventListener("resize", resizeCanvasToDisplaySize, false);
 
 function animate() {
     animReqId = requestAnimationFrame(animate);
-    //gallery.rotation.y = 2 * Math.PI * Math.sin(new Date().getTime() / 10000);
-    //gallery.rotation.y = 2*Math.PI/3;
     controls.update()
     renderer.render(scene, camera);
 }
@@ -84,10 +77,11 @@ const loadPreview = (galleryId) => new Promise((resolve, reject) => {
 
             controls = new OrbitControls( camera, renderer.domElement );
             controls.enableKeys = false;
-            controls.minPolarAngle = 10*Math.PI/180;
+            controls.minPolarAngle = 45*Math.PI/180;
             controls.maxPolarAngle = Math.PI / 2.5;
             controls.maxDistance = 5;
             controls.minDistance = 4;
+            controls.enablePan = false;
 
             controls.autoRotate = true;
 
@@ -96,6 +90,7 @@ const loadPreview = (galleryId) => new Promise((resolve, reject) => {
                 galleryPreset.camera.position.y,
                 galleryPreset.camera.position.z
             );
+
             camera.lookAt(0,1.6,0);
             scene = new THREE.Scene();
 
@@ -152,6 +147,7 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
         $scope.formData.selectedGallery = galleriesPresets.findById(id);
         loader.show();
         loader.showStatus("Loading 3d gallery, this could take a minute on slow connections");
+
         loadPreview(id).then(()=>{
             initializePaintings();
             loader.hide();
@@ -198,20 +194,25 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
 
             const _acceptedAspectRatios = paintingMeta.acceptedAspectRatios || acceptedAspectRatios;
 
-            !validationOnly && displayPainting(
-                gallery,
-                parseInt(painting3dMeta.pos.x),
-                parseInt(painting3dMeta.pos.y),
-                parseInt(painting3dMeta.pos.z),
-                parseInt(painting3dMeta.rotation.x),
-                parseInt(painting3dMeta.rotation.y),
-                parseInt(painting3dMeta.rotation.z),
-                parseInt(painting3dMeta.defaultPaintingWidth ?  painting3dMeta.defaultPaintingWidth : defaultPaintingWidth),
-                parseInt(1000*_acceptedAspectRatios[paintingMeta.canvas].w / _acceptedAspectRatios[paintingMeta.canvas].h),
-                $scope.formData.selectedGallery.textSize,
-                paintingMeta.url
-            );
-
+            try {
+                !validationOnly && await displayPainting(
+                    gallery,
+                    parseInt(painting3dMeta.pos.x),
+                    parseInt(painting3dMeta.pos.y),
+                    parseInt(painting3dMeta.pos.z),
+                    parseInt(painting3dMeta.rotation.x),
+                    parseInt(painting3dMeta.rotation.y),
+                    parseInt(painting3dMeta.rotation.z),
+                    parseInt(painting3dMeta.defaultPaintingWidth ? painting3dMeta.defaultPaintingWidth : defaultPaintingWidth),
+                    parseInt(1000 * _acceptedAspectRatios[paintingMeta.canvas].w / _acceptedAspectRatios[paintingMeta.canvas].h),
+                    $scope.formData.selectedGallery.textSize,
+                    paintingMeta.url
+                );
+            }
+            catch (error) {
+                console.log("Error loading image", error);
+                return Promise.reject("Image #" + (x+1) + ", cannot be loaded. Check if the URL is correct and other pages have access to it.");
+            }
             processPaintings++;
         }
 
@@ -287,12 +288,13 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
         }
 
         try {
-            loader.showStatus("Connecting to CoinEx network");
+
+            loader.showStatus("Connecting to CSC network");
             await contractUtils.connectToCoinEx();
             loader.showStatus("Deploying contract and minting NFTs");
             const response = await contractUtils.deploy($scope.formData.selectedGalleryId, paintingsArr);
 
-            const coinexChainExplorer = process.env.COINEX_TR_EXPLORER_TPL.replace('{{address}}', response.transactionHash);
+            const coinexChainExplorer = process.env.CSC_TR_EXPLORER_TPL.replace('{{address}}', response.transactionHash);
             const galleryURL = process.env.GALLERY_URL_TPL.replace('{{address}}', response.contractAddress);
 
             loader.hide();
@@ -314,7 +316,7 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
             loader.hide();
             Swal.fire({
                 title: 'Error!',
-                text: 'Something went wrong, please check Metamask history and try again',
+                text: e.message ? e.message : 'Something went wrong, please check Metamask history and try again',
                 icon: 'error',
                 confirmButtonText: 'Ok'
             });

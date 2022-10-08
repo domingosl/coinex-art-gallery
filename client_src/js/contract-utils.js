@@ -19,8 +19,10 @@ module.exports.connectToCoinEx = async () => {
 
     const accounts = await web3.eth.getAccounts();
 
-    //TODO: Compare networkId with process.env.COINEX_NET_ID and break if it do not match
-    //const networkId = web3.eth.net.getId();
+    const networkId = parseInt(await web3.eth.net.getId());
+    console.log("Current network", networkId);
+    if(parseInt(process.env.CSC_NET_ID) !== networkId)
+        return Promise.reject({ message: "The current account does not belong to CSC" });
 
     mainAccount = accounts[0];
 
@@ -32,12 +34,16 @@ module.exports.deploy = (galleryId, paintings) => new Promise(async (resolve, re
     const contract = new web3.eth.Contract(abi);
     console.log("Deploying...", [galleryId, paintings]);
 
-    //const estimatedGas = parseInt(1.1 * await contract.deploy({data: bytecode, arguments: [galleryId, paintings]}).estimateGas());
-    //console.log("Estimated Gas", estimatedGas);
+    const estimatedGas = parseInt(1.1 * await contract.deploy(
+        {
+            data: bytecode,
+            arguments: [galleryId, paintings]})
+        .estimateGas({from: mainAccount, value: 1000000000000000000}));
+    console.log("Estimated Gas", estimatedGas);
 
     contract
         .deploy({data: bytecode, arguments: [galleryId, paintings]})
-        .send({from: mainAccount})
+        .send({from: mainAccount, value: 1000000000000000000, gas: estimatedGas })
         .on("receipt", receipt => {
             resolve(receipt);
         })

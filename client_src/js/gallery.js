@@ -10,7 +10,6 @@ const locomotion = require('./locomotion');
 
 const { displayPainting, clearPaintings } = require('../js/display-paintings');
 
-let gallery;
 let web3;
 let contract;
 
@@ -145,7 +144,6 @@ window.init3d = (id) => new Promise((resolve, reject) => {
         });
 
     document.body.appendChild(renderer.domElement);
-    document.body.appendChild(VRButton.createButton(renderer));
 
 
 });
@@ -155,7 +153,7 @@ window.loadGallery = async () => {
     if(!contractAddrReg.test(queryParams.g) && queryParams.g !== 'example1' && queryParams.g !== 'example2' && queryParams.g !== 'example3')
         return alert("Invalid Gallery Address!");
 
-    web3 = new Web3(process.env.COINEX_NET_RPC_URL);
+    web3 = new Web3(process.env.CSC_NET_RPC_URL);
 
     contract = new web3.eth.Contract(abi,
         queryParams.g === 'example1' ?
@@ -164,6 +162,7 @@ window.loadGallery = async () => {
                 process.env.GALLERY_EXAMPLE_3 : queryParams.g);
 
     loader.show();
+    loader.showStatus("Please wait while the gallery is being loaded");
 
     const galleryIndex = parseInt(await contract.methods.getGalleryIndex().call());
 
@@ -194,6 +193,12 @@ window.loadGallery = async () => {
 
     await Promise.allSettled(promises);
     scene.add(gallery);
+
+    const vrBtn = VRButton.createButton(renderer);
+    vrBtn.classList.add('animate__animated');
+    vrBtn.classList.add('animate__infinite');
+    setTimeout(()=>vrBtn.classList.add('animate__pulse'), 500);
+    document.body.appendChild(vrBtn);
 
     loader.hide();
 

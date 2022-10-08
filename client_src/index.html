@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="main">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pocket VR powered by CoinEx</title>
+    <title>Pocket VR powered by CSC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="./scss/main.scss" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
+            integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" src="./js/main.js"></script>
+
+    <link rel="stylesheet" href="./scss/main.scss" />
 </head>
-<body class="d-flex text-center">
+<body class="d-flex text-center" ng-controller="main">
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="mb-auto">
@@ -30,11 +34,11 @@
                 <h1>Your own mini</h1>
                 <h1 class="color floty">VR METAVERSE</h1>
                 <h1>no code.</h1>
-                <p class="lead isolate">Immortalize your art work on the <strong>CoinEx blockchain</strong></p>
+                <p class="lead isolate">Immortalize your art work on the <strong>CoinEx Smart Chain</strong></p>
                 <p class="lead">
 
                     <a href="./new-gallery.html" class="button btn-main">Create your own VR gallery</a>
-                    <a href="#" class="button small">Explore other galleries</a>
+                    <a href="#" class="button small" ng-click="showExploreModal()">Explore galleries</a>
                 </p>
             </div>
             <div class="col-lg-6 d-none d-lg-block">

@@ -1,76 +1,33 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-
-const gltfLoader = new GLTFLoader();
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(
-    50,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-);
+import Swal from 'sweetalert2/src/sweetalert2.js';
 
 
+angular.module("main", []).controller("main", [ "$scope", function ($scope, $interval) {
 
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.querySelector("#litle-verse"),
-    alpha: true,
-    antialias: true
-});
+    $scope.showExploreModal = async () => {
 
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        await Swal.fire({
+            title: 'Explore Galleries',
+            html: 'Enter the gallery address below or check out the demos. (<a href="/gallery.html?g=example1">Demo 1</a>, ' +
+                '<a href="/gallery.html?g=example2">Demo 2</a>, ' +
+                '<a href="/gallery.html?g=example3">Demo 3</a>)',
+            input: 'text',
+            inputLabel: 'Gallery Address',
+            inputValue: "",
+            confirmButtonText: 'Open gallery',
+            showCancelButton: false,
+            inputValidator: (value) => {
+                const contractAddrReg = new RegExp('^0x[a-fA-F0-9]{40}$');
 
-function resizeCanvasToDisplaySize() {
-    const canvas = renderer.domElement;
+                if (!contractAddrReg.test(value)) {
+                    return 'Invalid gallery address';
+                }
 
-    // look up the size the canvas is being displayed
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
+                location.href = '/gallery.html?g=' + value;
+            }
+        });
 
-    // adjust displayBuffer size to match
-    if (canvas.width !== width || canvas.height !== height) {
-        // you must pass false here or three.js sadly fights the browser
-        renderer.setSize(width, height, false);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
+    };
 
-        // update any render target sizes here
-    }
-}
 
-let isoGallery;
-gltfLoader.load(
-    "assets/gallery-2/scene.gltf",
-    function (gltf) {
-        isoGallery = gltf.scene;
-        //isoGallery.rotation.x = 0.5;
-        //isoGallery.rotation.y = 3.1;
-        scene.add(isoGallery);
-        resizeCanvasToDisplaySize();
-    },
-    (xhr) => {
-        //console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
-    },
-    (error) => {
-        console.log(error);
-    }
-);
+}]);
 
-camera.position.setZ(160);
-camera.position.setY(50);
-
-window.addEventListener("resize", resizeCanvasToDisplaySize, false);
-
-resizeCanvasToDisplaySize();
-
-function animate() {
-    requestAnimationFrame(animate);
-
-    isoGallery ? isoGallery.rotation.y += 0.003 * Math.sin(new Date().getTime() / 10000) : null;
-
-    renderer.render(scene, camera);
-}
-
-animate();

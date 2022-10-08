@@ -5,34 +5,61 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts@4.4.2/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts@4.4.2/access/Ownable.sol";
 import "@openzeppelin/contracts@4.4.2/utils/Counters.sol";
+import "@openzeppelin/contracts/utils/Base64.sol";
 
 contract CoinExGallery is ERC721, Ownable {
 
-    constructor() ERC721("COINEXGALLERY", "CEG") {}
-
-    using Counters for Counters.Counter;
-    Counters.Counter private supply;
-
-
-    uint256 public maxSupply = 10;
-    uint256 public cost = 0.01 ether;
-
-    mapping (address => Painting []) NFTOwners;
-
     struct Painting {
         string name;
-        uint256 posX;
-        uint256 posY;
-        uint256 posZ;
-        uint256 rotX;
-        uint256 rotY;
-        uint256 rotZ;
+        int256 posX;
+        int256 posY;
+        int256 posZ;
+        int256 rotX;
+        int256 rotY;
+        int256 rotZ;
         uint256 width;
         uint256 aspect;
         string url;
     }
 
+    uint256 public maxSupply = 30;
+    uint256 public galleryIndex;
+
+    constructor(uint256 _galleryIndex, Painting[] memory _paintings) ERC721("COINEXGALLERY", "CEG")  {
+
+        require(_paintings.length < maxSupply, "Max number of paitings reached!");
+
+        galleryIndex = _galleryIndex;
+
+        for (uint256 i = 0; i < _paintings.length; ++i) {
+            mint(
+                _paintings[i].name,
+                _paintings[i].posX,
+                _paintings[i].posY,
+                _paintings[i].posZ,
+                _paintings[i].rotX,
+                _paintings[i].rotY,
+                _paintings[i].rotZ,
+                _paintings[i].width,
+                _paintings[i].aspect,
+                _paintings[i].url);
+        }
+
+
+    }
+
+    using Counters for Counters.Counter;
+    Counters.Counter private supply;
+
+
+    mapping (address => Painting []) NFTOwners;
+
+
     Painting[] public paintings;
+
+    function getGalleryIndex() public view returns (uint256) {
+        return galleryIndex;
+    }
 
 
     function getPaintings() public view returns (Painting [] memory) {
@@ -43,24 +70,45 @@ contract CoinExGallery is ERC721, Ownable {
         return supply.current();
     }
 
+    function getTokenURI(uint256 _tokenId) public view returns (string memory){
+
+        Painting memory painting = paintings[_tokenId];
+
+        bytes memory dataURI = abi.encodePacked(
+            '{',
+            '"name":"', painting.name, '",',
+            '"description":"A PocketVR painting!"',
+            '"image":"', painting.url,'"',
+            '}'
+        );
+        return string(
+            abi.encodePacked(
+                "data:application/json;base64,",
+                Base64.encode(dataURI)
+            )
+        );
+    }
+
     function mint(
         string memory _name,
-        uint256 _posX,
-        uint256 _posY,
-        uint256 _posZ,
-        uint256 _rotX,
-        uint256 _rotY,
-        uint256 _rotZ,
+        int256 _posX,
+        int256 _posY,
+        int256 _posZ,
+        int256 _rotX,
+        int256 _rotY,
+        int256 _rotZ,
         uint256 _width,
         uint256 _aspect,
         string memory _url
-        ) public onlyOwner {
-            require(supply.current() < maxSupply, "Max numbers of paitings reached!");
-            supply.increment();
-            _safeMint(msg.sender, supply.current());
-            Painting memory _newPainting = Painting(_name, _posX, _posY, _posZ, _rotX, _rotY, _rotZ, _width, _aspect, _url);
-            paintings.push(_newPainting);
-            NFTOwners[msg.sender].push(_newPainting);
+    ) public onlyOwner {
+
+        require(supply.current() < maxSupply, "Max number of paitings reached!");
+        supply.increment();
+        _safeMint(msg.sender, supply.current());
+        Painting memory _newPainting = Painting(_name, _posX, _posY, _posZ, _rotX, _rotY, _rotZ, _width, _aspect, _url);
+        paintings.push(_newPainting);
+        NFTOwners[msg.sender].push(_newPainting);
+
     }
 
 

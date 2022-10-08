@@ -64,7 +64,7 @@
         "type": "tuple[]"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "constructor"
   },
   {
@@ -188,6 +188,19 @@
       }
     ],
     "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fee",
     "outputs": [
       {
         "internalType": "uint256",
@@ -343,64 +356,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_name",
-        "type": "string"
-      },
-      {
-        "internalType": "int256",
-        "name": "_posX",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "_posY",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "_posZ",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "_rotX",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "_rotY",
-        "type": "int256"
-      },
-      {
-        "internalType": "int256",
-        "name": "_rotZ",
-        "type": "int256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_width",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_aspect",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_url",
-        "type": "string"
-      }
-    ],
-    "name": "mint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -624,7 +579,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenId",
+        "name": "_tokenId",
         "type": "uint256"
       }
     ],
