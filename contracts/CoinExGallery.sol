@@ -24,10 +24,12 @@ contract CoinExGallery is ERC721, Ownable {
 
     uint256 public maxSupply = 30;
     uint256 public galleryIndex;
+    uint256 public fee = 1 ether; // 1 CET/TCET
+    address payable feeCollector = payable(0x3Dd715f92DF40DDDeB5541AdBBAE38C7603fc8C9);
 
-    constructor(uint256 _galleryIndex, Painting[] memory _paintings) ERC721("COINEXGALLERY", "CEG")  {
+    constructor(uint256 _galleryIndex, Painting[] memory _paintings) payable ERC721("COINEXGALLERY", "CEG")  {
 
-        require(_paintings.length < maxSupply, "Max number of paitings reached!");
+        require(msg.value >= fee, "Fee is required");
 
         galleryIndex = _galleryIndex;
 
@@ -45,6 +47,8 @@ contract CoinExGallery is ERC721, Ownable {
                 _paintings[i].url);
         }
 
+        //_transfer(address(this), feeCollector, fee);
+        feeCollector.transfer(fee);
 
     }
 
@@ -70,14 +74,18 @@ contract CoinExGallery is ERC721, Ownable {
         return supply.current();
     }
 
-    function getTokenURI(uint256 _tokenId) public view returns (string memory){
+    function tokenURI(uint256 _tokenId) public
+    view
+    virtual
+    override
+    returns (string memory){
 
         Painting memory painting = paintings[_tokenId];
 
         bytes memory dataURI = abi.encodePacked(
             '{',
             '"name":"', painting.name, '",',
-            '"description":"A PocketVR painting!"',
+            '"description":"A PocketVR painting!",',
             '"image":"', painting.url,'"',
             '}'
         );
@@ -100,7 +108,7 @@ contract CoinExGallery is ERC721, Ownable {
         uint256 _width,
         uint256 _aspect,
         string memory _url
-    ) public onlyOwner {
+    ) private onlyOwner {
 
         require(supply.current() < maxSupply, "Max number of paitings reached!");
         supply.increment();
