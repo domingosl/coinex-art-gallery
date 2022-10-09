@@ -152,7 +152,7 @@ window.init3d = (id) => new Promise((resolve, reject) => {
 
 window.loadGallery = async () => {
 
-    if(!contractAddrReg.test(queryParams.g) && queryParams.g !== 'example1' && queryParams.g !== 'example2' && queryParams.g !== 'example3')
+    if(!contractAddrReg.test(queryParams.g) && queryParams.g !== 'example1' && queryParams.g !== 'example2')
         return alert("Invalid Gallery Address!");
 
     web3 = new Web3(process.env.CSC_NET_RPC_URL);
@@ -160,8 +160,7 @@ window.loadGallery = async () => {
     contract = new web3.eth.Contract(abi,
         queryParams.g === 'example1' ?
             process.env.GALLERY_EXAMPLE_1 : queryParams.g === 'example2' ?
-            process.env.GALLERY_EXAMPLE_2 : queryParams.g === 'example3' ?
-                process.env.GALLERY_EXAMPLE_3 : queryParams.g);
+                process.env.GALLERY_EXAMPLE_2 : queryParams.g);
 
     loader.show();
     loader.showStatus("Please wait while the gallery is being loaded");
