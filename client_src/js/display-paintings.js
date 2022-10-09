@@ -28,6 +28,7 @@ const displayPainting = async (
     zRot = 0,
     width = 0.5,
     ar,
+    name,
     textSize,
     imageURL) => new Promise((resolve, reject) => {
 
@@ -57,14 +58,16 @@ const displayPainting = async (
         mesh.position.set(x/1000, y/1000, z/1000);
         mesh.rotation.set(xRot/1000, yRot/1000, zRot/1000);
 
-        await ui.displayTextBox(
-            mesh,
-            "NFT: Painting name is veryyyyyyyyyy looooooong!!!!\nBy XXX",
-            textSize,
-            "left",
-            {x:-width/2000,y:-(width/2000) / aspect,z:0},
-            {x:0,y:0,z:0}
-        );
+
+        if(name)
+            await ui.displayTextBox(
+                mesh,
+                name,
+                textSize,
+                "left",
+                {x:-width/2000,y:-(width/2000) / aspect,z:0},
+                {x:0,y:0,z:0}
+            );
 
         scene.add(mesh);
 

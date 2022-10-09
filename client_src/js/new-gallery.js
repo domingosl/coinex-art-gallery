@@ -28,6 +28,8 @@ let animReqId;
 let controls;
 const defaultPaintingWidth = 1300;
 
+const truncate = (input) => input.length > 25 ? `${input.substring(0, 22)}...` : input;
+
 function resizeCanvasToDisplaySize() {
 
     const canvas = renderer.domElement;
@@ -133,7 +135,7 @@ const checkIfImageExists = url => new Promise((resolve, reject) => {
     }
 });
 
-angular.module("newGallery", []).controller("main", [ "$scope", "$interval", function ($scope, $interval) {
+angular.module("newGallery", []).controller("main", [ "$scope", "$interval", function ($scope) {
 
     $scope.formData = {
         currentStep: 'gallerySelection',
@@ -205,6 +207,7 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
                     parseInt(painting3dMeta.rotation.z),
                     parseInt(painting3dMeta.defaultPaintingWidth ? painting3dMeta.defaultPaintingWidth : defaultPaintingWidth),
                     parseInt(1000 * _acceptedAspectRatios[paintingMeta.canvas].w / _acceptedAspectRatios[paintingMeta.canvas].h),
+                    paintingMeta.name,
                     $scope.formData.selectedGallery.textSize,
                     paintingMeta.url
                 );
@@ -273,7 +276,7 @@ angular.module("newGallery", []).controller("main", [ "$scope", "$interval", fun
             const _acceptedAspectRatios = paintingMeta.acceptedAspectRatios || acceptedAspectRatios;
 
             paintingsArr.push([
-                'foo', //TODO: Implement NFT name
+                truncate(paintingMeta.name),
                 parseInt(painting3dMeta.pos.x),
                 parseInt(painting3dMeta.pos.y),
                 parseInt(painting3dMeta.pos.z),

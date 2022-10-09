@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 require('dotenv').config();
 
 import Web3 from 'web3';
@@ -175,20 +177,26 @@ window.loadGallery = async () => {
     const galleryPreset = galleriesPresets.findById(galleryIndex);
 
     const promises = [];
+    let error = false;
     for(const painting in paintings) {
-        promises.push(await displayPainting(
-            gallery,
-            paintings[painting].posX,
-            paintings[painting].posY,
-            paintings[painting].posZ,
-            paintings[painting].rotX,
-            paintings[painting].rotY,
-            paintings[painting].rotZ,
-            paintings[painting].width,
-            paintings[painting].aspect,
-            galleryPreset.textSize,
-            paintings[painting].url
-        ));
+        try {
+            promises.push(await displayPainting(
+                gallery,
+                paintings[painting].posX,
+                paintings[painting].posY,
+                paintings[painting].posZ,
+                paintings[painting].rotX,
+                paintings[painting].rotY,
+                paintings[painting].rotZ,
+                paintings[painting].width,
+                paintings[painting].aspect,
+                paintings[painting].name,
+                galleryPreset.textSize,
+                paintings[painting].url
+            ));
+        } catch (e) {
+            error = true;
+        }
     }
 
     await Promise.allSettled(promises);
@@ -199,6 +207,12 @@ window.loadGallery = async () => {
     vrBtn.classList.add('animate__infinite');
     setTimeout(()=>vrBtn.classList.add('animate__pulse'), 500);
     document.body.appendChild(vrBtn);
+
+    error && Swal.fire({
+        title: 'oh oh!',
+        html: "We were not able to load at least one the paintings.",
+        icon: 'error'
+    });
 
     loader.hide();
 
