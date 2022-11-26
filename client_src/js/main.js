@@ -7,7 +7,7 @@ angular.module("main", []).controller("main", [ "$scope", function ($scope, $int
 
         await Swal.fire({
             title: 'Explore Galleries',
-            html: 'Enter the gallery address below or check out the demo. (<a href="/gallery.html?g=example1">Demo 1</a>',
+            html: 'Enter the gallery address below or check out the demo. (<a href="/gallery.html?g=example1">Demo 1</a>)',
             input: 'text',
             inputLabel: 'Gallery Address',
             inputValue: "",
