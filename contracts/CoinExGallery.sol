@@ -110,7 +110,7 @@ contract CoinExGallery is ERC721, Ownable {
         string memory _url
     ) private onlyOwner {
 
-        require(supply.current() < maxSupply, "Max number of paitings reached!");
+        require(supply.current() < maxSupply, "Max number of paintings reached!");
         supply.increment();
         _safeMint(msg.sender, supply.current());
         Painting memory _newPainting = Painting(_name, _posX, _posY, _posZ, _rotX, _rotY, _rotZ, _width, _aspect, _url);
