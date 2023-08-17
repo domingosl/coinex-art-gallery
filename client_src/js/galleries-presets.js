@@ -51,7 +51,7 @@ const data = [
 
             const objLoader = new OBJLoader();
 
-            objLoader.load('assets/coinex/logo.obj', object => {
+            objLoader.load('assets/coinex/coinex_v2.obj', object => {
 
                 const material = new THREE.MeshPhongMaterial({
                     color: 0x14141F,
@@ -65,8 +65,8 @@ const data = [
 
 
                 });
-                object.scale.set(0.0025, 0.0025, 0.0025);
-                object.rotation.x = Math.PI / 2;
+                object.scale.set(0.03, 0.03, 0.03);
+                //object.rotation.x = Math.PI / 2;
                 object.position.y = 1.4;
                 object.position.z = -0.1;
                 object.traverse(function (child) {
